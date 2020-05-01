@@ -263,6 +263,52 @@ Folding of .vader files can be enabled by setting the the
 `g:vader_enable_folding` to 1. This will set `foldmethod` to `expr` and
 declare a corresponding fold expression.
 
+Previewing the workbench buffer in a separate window
+----------------------------------------------------
+
+The content of the workbench buffer can be previewed in a separate window
+while modifying a `.vader` file. 
+This is helpful when writing the verification code to have the content
+under test directly visible, especially when referring to specific line
+numbers in the test fixture.
+
+At the moment only the content of `:Given` block can be previewed, but not
+the result of the `:Do` block.
+
+The filetype of the preview buffer is set to the filetype specified in the
+`Given:` block.
+
+While the preview window is open its content is automatically adjusted if
+the cursor is moved to another block in the `.vader` file.
+
+<!-- TODO: Screenshot -->
+
+The preview window can be shown/hidden with the following commands:
+
+- `:VaderPreview[!]`
+  - Open the preview buffer in a separate window. If the bang (!) is given
+    the window of the preview buffer is closed instead.
+- `:VaderPreviewToggle`
+  - Toggle the visibility of the preview window.
+
+The following <Plug>-mappings are provided to map these commands to
+keystrokes:
+
+- `<Plug>(VaderPreviewOpen)`
+  - Open the preview window.
+- `<Plug>(VaderPreviewClose)`
+  - Close the preview window.
+- `<Plug>(VaderPreviewToggle)`
+  - Toggle the visibility of the preview window.
+
+There are no default keybindings for these mappings. They can be assigned to
+keys via e.g.:
+
+```
+nmap <leader>p <Plug>(VaderPreviewToggle)
+```
+
+
 Setting up isolated testing environment
 ---------------------------------------
 

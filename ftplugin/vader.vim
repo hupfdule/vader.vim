@@ -64,6 +64,19 @@ augroup vader_syntax
   " autocmd FileType <buffer> call vader#syntax#include(1, '$')
 augroup END
 
+" Update the preview window when the cursor was moved in normal mode.
+augroup vader_preview
+  autocmd!
+  autocmd CursorHold <buffer> if vader#preview#is_open() | call vader#preview#update() | endif
+augroup END
+
+command -buffer -bang VaderPreview        if <bang>0 | call vader#preview#close() | else | call vader#preview#open() | endif
+command -buffer       VaderPreviewToggle  if vader#preview#is_open() | call vader#preview#close() | else | call vader#preview#open() | endif
+
+nnoremap <buffer> <Plug>(VaderPreviewOpen)   :VaderPreview<cr>
+nnoremap <buffer> <Plug>(VaderPreviewClose)  :VaderPreview!<cr>
+nnoremap <buffer> <Plug>(VaderPreviewToggle) :VaderPreviewToggle<cr>
+
 let b:undo_ftplugin = 'setl sw< ts< sts< et< cms< isk< fde< fdm<'
       \ . ' | exe "au! vader_syntax * <buffer>"'
       \ . ' | unlet b:vader_label b:vader_eos'
