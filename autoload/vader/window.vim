@@ -118,7 +118,7 @@ function! vader#window#prepare(lines, type)
   for line in a:lines
     call append(line('$') - 1, line)
   endfor
-  silent d _
+  "silent d _
   execute "normal! \<c-\>\<c-n>gg0"
 
   let &undolevels = &undolevels " Break undo block
