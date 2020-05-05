@@ -35,15 +35,29 @@ function! vader#preview#update() abort
   endif
 
   let l:preview_content = s:get_get_preview_content()
-  call deletebufline(s:buf_id, 0, '$')
-  for l:line in l:preview_content
+  call deletebufline(s:buf_id, 1, '$')
+  for l:line in l:preview_content['content']
     call appendbufline(s:buf_id, '$', l:line)
   endfor
 
   " delete the leftover, now empty, first line
   call deletebufline(s:buf_id, 1)
 
-  " TODO: Set filetype!
+  " Set filetype
+  if l:preview_content['filetype'] != ''
+    call setbufvar(s:buf_id, '&filetype', l:preview_content['filetype'])
+  endif
+
+  " Disable folding in the preview buffer
+  call setbufvar(s:buf_id, '&foldenable', 0)
+
+  " Enable display of line numbers
+  call setbufvar(s:buf_id, '&number', 1)
+
+  " TODO: Adjust width to the maximum necessary?
+  " TODO: React on cursormoved in normal mode
+  "       Attention: This needs to be active /only/ when the preview window
+  "       is open. Otherwise this should not be done.
 endfunction
 
 ""
@@ -61,7 +75,9 @@ function! s:get_get_preview_content() abort
     if l:prev_heading == 0
       break
     endif
-    if getline(l:prev_heading) =~# '^Given'
+
+    let l:match_given = matchlist(getline(l:prev_heading), vader#syntax#_head())
+    if l:match_given[3] ==# 'Given'
       let l:prev_given = l:prev_heading
       break
     else
@@ -99,7 +115,11 @@ function! s:get_get_preview_content() abort
     endfor
   endif
 
-  return l:given_lines
+  return {
+        \ 'filetype': trim(l:match_given[4]),
+        \ 'comment':  trim(l:match_given[5]),
+        \ 'content':  l:given_lines
+        \ }
 endfunction
 
 ""
@@ -126,10 +146,10 @@ endfunction
 " If the preview buffer already exists it will not be created again.
 function! s:create_preview_buffer() abort
   let s:buf_id = bufnr(s:buf_name, 1)
-  call setbufvar(s:buf_id, '&buftype'  , 'nofile')
-  "call setbufvar(s:buf_id, '&bufhidden', 'wipe')
-  call setbufvar(s:buf_id, '&buflisted', 0)
-  call setbufvar(s:buf_id, '&swapfile' , 0)
+  call setbufvar(s:buf_id, '&buftype'    , 'nofile')
+  call setbufvar(s:buf_id, '&bufhidden'  , 'hide')
+  call setbufvar(s:buf_id, '&buflisted'  , 0)
+  call setbufvar(s:buf_id, '&swapfile'   , 0)
 
   " temporarily switch to the buffer to be able to write to it
   let l:cur_buf = bufnr('')
