@@ -9,6 +9,21 @@ I use Vader to test Vimscript.
 ### Vader result
 ![](https://raw.github.com/junegunn/i/master/vader-result.png)
 
+Changes to upstream
+-------------------
+
+This is not the upstream source. It's a fork to fix some bugs that are not
+incorporated into upstream yet.
+
+The following pull requests are integrated:
+
+ - [Display source with exceptions](https://github.com/junegunn/vader.vim/pull/107)
+ - [Describe summary tab and default mappings in README](https://github.com/junegunn/vader.vim/pull/212)
+ - [Provide foldexpr for  .vader files](https://github.com/junegunn/vader.vim/pull/213)
+ - [Provide preview buffer](not yet a PR)
+
+Additionally a fix is integrated to fix [Vader swallows Given lines](https://github.com/junegunn/vader.vim/issues/211). However as the consequences are unclear to me this was not made into a pull request.
+
 Installation
 ------------
 
