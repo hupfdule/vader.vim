@@ -59,6 +59,12 @@ augroup vader_syntax
   " autocmd FileType <buffer> call vader#syntax#include(1, '$')
 augroup END
 
+augroup vader_preview
+  autocmd!
+  " FIXME: Only update if preview window is open?
+  autocmd CursorHold <buffer> call vader#preview#update()
+augroup END
+
 let b:undo_ftplugin = 'setl sw< ts< sts< et< cms< isk<'
       \ . ' | exe "au! vader_syntax * <buffer>"'
       \ . ' | unlet b:vader_label b:vader_eos'

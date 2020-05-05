@@ -34,6 +34,11 @@ function! vader#preview#update() abort
     return
   endif
 
+  " abort if the preview buffer is not visible
+  if bufwinid(s:buf_name) == -1
+    return
+  endif
+
   let l:preview_content = s:get_get_preview_content()
   call deletebufline(s:buf_id, 1, '$')
   for l:line in l:preview_content['content']
