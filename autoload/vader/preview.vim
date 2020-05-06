@@ -25,17 +25,27 @@ function! vader#preview#open() abort
 endfunction
 
 ""
+" Close the preview buffers window.
+"
+" If the preview buffer is not visible in a current window this does
+" nothing.
+function! vader#preview#close() abort
+  let l:cur_win = win_getid()
+  let l:win_id = bufwinid(s:buf_name)
+  let l:win_nr = win_id2win(l:win_id)
+  if l:win_nr !=# 0
+    execute l:win_nr . 'wincmd c'
+  endif
+  call win_gotoid(l:cur_win)
+endfunction
+
+""
 " Update the content of the preview buffer with the current "Given" block.
 "
 " The content to display is recognized by the current cursor location.
 function! vader#preview#update() abort
   if getbufvar('', '&filetype') !=# 'vader'
     echohl ErrorMsg | echo "Only preview of filetype=vader is supported" | echohl None
-    return
-  endif
-
-  " abort if the preview buffer is not visible
-  if bufwinid(s:buf_name) == -1
     return
   endif
 
@@ -60,9 +70,14 @@ function! vader#preview#update() abort
   call setbufvar(s:buf_id, '&number', 1)
 
   " TODO: Adjust width to the maximum necessary?
-  " TODO: React on cursormoved in normal mode
-  "       Attention: This needs to be active /only/ when the preview window
-  "       is open. Otherwise this should not be done.
+  " FIXME: This function leaves the "window-header" of the preview active.  Why?
+endfunction
+
+""
+" Check whether the preview window is visible.
+" If it is open a non-zero value is returned.
+function! vader#preview#is_open() abort
+  return bufwinid(s:buf_name) != -1
 endfunction
 
 ""

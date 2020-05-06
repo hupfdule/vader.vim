@@ -59,11 +59,23 @@ augroup vader_syntax
   " autocmd FileType <buffer> call vader#syntax#include(1, '$')
 augroup END
 
+" Update the preview window when the cursor was moved in normal mode.
 augroup vader_preview
   autocmd!
-  " FIXME: Only update if preview window is open?
-  autocmd CursorHold <buffer> call vader#preview#update()
+  autocmd CursorHold <buffer> if vader#preview#is_open() | call vader#preview#update() | endif
 augroup END
+
+command -buffer -bang VaderPreview        if <bang>0 | call vader#preview#close() | else | call vader#preview#open() | endif
+command -buffer       VaderPreviewToggle  if vader#preview#is_open() | call vader#preview#close() | else | call vader#preview#open() | endif
+
+nnoremap <buffer> <Plug>(VaderPreviewOpen)   :silent VaderPreview<cr>
+nnoremap <buffer> <Plug>(VaderPreviewClose)  :silent VaderPreview!<cr>
+nnoremap <buffer> <Plug>(VaderPreviewToggle) :silent VaderPreviewToggle<cr>
+
+" FIXME: These are only examples and should be moved into the documentation
+nmap <leader>o <Plug>(VaderPreviewOpen)
+nmap <leader>c <Plug>(VaderPreviewClose)
+nmap <leader>p <Plug>(VaderPreviewToggle)
 
 let b:undo_ftplugin = 'setl sw< ts< sts< et< cms< isk<'
       \ . ' | exe "au! vader_syntax * <buffer>"'
