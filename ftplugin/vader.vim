@@ -72,11 +72,6 @@ nnoremap <buffer> <Plug>(VaderPreviewOpen)   :VaderPreview<cr>
 nnoremap <buffer> <Plug>(VaderPreviewClose)  :VaderPreview!<cr>
 nnoremap <buffer> <Plug>(VaderPreviewToggle) :VaderPreviewToggle<cr>
 
-" FIXME: These are only examples and should be moved into the documentation
-nmap <leader>o <Plug>(VaderPreviewOpen)
-nmap <leader>c <Plug>(VaderPreviewClose)
-nmap <leader>p <Plug>(VaderPreviewToggle)
-
 let b:undo_ftplugin = 'setl sw< ts< sts< et< cms< isk<'
       \ . ' | exe "au! vader_syntax * <buffer>"'
       \ . ' | unlet b:vader_label b:vader_eos'
