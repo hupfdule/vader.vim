@@ -150,11 +150,13 @@ endfunction
 "
 " Otherwise {line} is returned with the leading 2 space characters removed.
 
-" If {line} is not empty and does not start with 2 spaces a "VaderErr001"
-" is thrown.
+" If {line} is not empty and does not start with 2 spaces it is returned
+" unmodified.
 function! s:strip_leading_whitespace(line) abort
+  " FIXME: We don't need this check anymore. We can always execute the
+  " substitution.
   if a:line !~# '\%(^\s*$\)\|\%(^\s\{2\}\)'
-    throw "VaderErr001: line is not indented: '" . a:line . "'"
+    return a:line
   endif
 
   return substitute(a:line, '^\s\{2\}', '', '')
