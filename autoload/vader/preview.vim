@@ -128,7 +128,7 @@ function! s:get_get_preview_content() abort
 
   let l:given_lines = getline(l:prev_given + 1, l:prev_other - 1)
 
-  " TODO: Remove leading 2 spaces (if Given ends with ':')
+  " Remove leading 2 spaces (if Given ends with ':')
   if getline(l:prev_given) =~# ':\s*$'
     for i in range(0, len(l:given_lines) - 1)
       let l:given_lines[i] = s:strip_leading_whitespace(l:given_lines[i])
@@ -145,20 +145,10 @@ endfunction
 ""
 " Remove the leading 2 spaces of a "Given" content line.
 "
-" If {line} is empty (contains only whitespace or no content at all) it is
-" returned unmodified.
+" If {line} does not start with 2 spaces it is returned unmodified.
 "
 " Otherwise {line} is returned with the leading 2 space characters removed.
-
-" If {line} is not empty and does not start with 2 spaces it is returned
-" unmodified.
 function! s:strip_leading_whitespace(line) abort
-  " FIXME: We don't need this check anymore. We can always execute the
-  " substitution.
-  if a:line !~# '\%(^\s*$\)\|\%(^\s\{2\}\)'
-    return a:line
-  endif
-
   return substitute(a:line, '^\s\{2\}', '', '')
 endfunction
 
