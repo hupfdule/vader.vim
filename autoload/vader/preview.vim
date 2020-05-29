@@ -60,6 +60,9 @@ function! vader#preview#update() abort
 
   " Set filetype
   if l:preview_content['filetype'] != ''
+    " FIXME: This leaves the airline of the preview window "active".
+    "        However the .vader window still has the focus. Only the
+    "        preview windows status line is highlighted.
     call setbufvar(s:buf_id, '&filetype', l:preview_content['filetype'])
   endif
 
