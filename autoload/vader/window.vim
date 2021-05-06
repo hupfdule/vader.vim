@@ -156,6 +156,7 @@ function! vader#window#cleanup()
   execute 'silent! bd' s:workbench_bfr
   call s:switch_to_console()
   setlocal nomodifiable
+  setlocal nobuflisted
   nnoremap <silent> <buffer> q :call <SID>quit()<CR><CR>
   normal! Gzb
 endfunction

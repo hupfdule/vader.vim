@@ -77,6 +77,7 @@ endfunction
 " Check whether the preview window is visible.
 " If it is open a non-zero value is returned.
 function! vader#preview#is_open() abort
+  echom s:buf_name . ' → ' . bufwinid(s:buf_name)
   return bufwinid(s:buf_name) != -1
 endfunction
 

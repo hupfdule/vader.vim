@@ -70,8 +70,10 @@ augroup vader_preview
   autocmd CursorHold <buffer> if vader#preview#is_open() | call vader#preview#update() | endif
 augroup END
 
-command -buffer -bang VaderPreview        if <bang>0 | call vader#preview#close() | else | call vader#preview#open() | endif
-command -buffer       VaderPreviewToggle  if vader#preview#is_open() | call vader#preview#close() | else | call vader#preview#open() | endif
+command! -buffer -bang VaderPreview        if <bang>0 | call vader#preview#close() | else | call vader#preview#open() | endif
+" FIXME: Toggle should remember the position, height and width of the
+" preview window
+command! -buffer       VaderPreviewToggle  if vader#preview#is_open() | call vader#preview#close() | else | call vader#preview#open() | endif
 
 nnoremap <buffer> <Plug>(VaderPreviewOpen)   :VaderPreview<cr>
 nnoremap <buffer> <Plug>(VaderPreviewClose)  :VaderPreview!<cr>
